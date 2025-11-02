@@ -6,17 +6,17 @@
 
 int main() 
 {
-    int sock;
-    struct sockaddr_in server;
+    int client_socket;
+    struct sockaddr_in server_addr;
     char buf[100];
-    socklen_t len = sizeof(server);
+    socklen_t len = sizeof(server_addr);
 
-    sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock < 0) { perror("socket"); exit(1); }
+    client_socket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (client_socket < 0) { perror("socket"); exit(1); }
 
-    server.sin_family = AF_INET;
-    server.sin_port = htons(9173);
-    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(9173);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     while (1) 
     {
@@ -25,19 +25,19 @@ int main()
         scanf("%d %d", &a, &b);
 
         sprintf(buf, "%d %d", a, b);
-        sendto(sock, buf, strlen(buf), 0, (struct sockaddr*)&server, len);
+        sendto(client_socket, buf, strlen(buf), 0, (struct sockaddr*)&server_addr, len);
 
         if (a == -1 && b == -1) {
             printf("Exiting client...\n");
             break;
         }
 
-        int n = recvfrom(sock, buf, sizeof(buf), 0, NULL, NULL);
+        int n = recvfrom(client_socket, buf, sizeof(buf), 0, NULL, NULL);
         buf[n] = '\0';
 
         printf("Sum from server: %s\n", buf);
     }
 
-    close(sock);
+    close(client_socket);
     return 0;
 }

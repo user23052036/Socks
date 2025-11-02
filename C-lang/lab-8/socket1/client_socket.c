@@ -21,13 +21,7 @@ int main() {
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
-
-    // Convert IP
-    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
-        perror("Invalid address / Address not supported");
-        close(sock);
-        exit(EXIT_FAILURE);
-    }
+    serv_addr.sin_addr.s_addr = inet_addr("127.0.0.2");
 
     // Connect to server
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {

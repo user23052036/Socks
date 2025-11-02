@@ -7,7 +7,7 @@ int main()
     scanf("%u", &num);
 
     unsigned char lsb = num & 0xFF;  // first 8 bits 0xFF == 11111111
-    unsigned char msb = (num >> 24) & 0xFF;  // last 8 bits
+    unsigned char msb = (num >> 24) & 0xFF;  // last 8 bits we can also write (num & 0xFF000000)
 
     /*
         Byte0 → bits 0–7

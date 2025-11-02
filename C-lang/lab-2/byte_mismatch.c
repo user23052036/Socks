@@ -2,13 +2,13 @@
 
 int main() 
 {
-    unsigned int num;
+    unsigned int num;  // unsigned integer 4bytes and integer 2 bytes
     int attempts = 0;
 
     while (1) 
     {
         printf("Enter an unsigned integer: ");
-        scanf("%u", &num);
+        scanf("%u", &num);   
         attempts++;
 
         unsigned char firstByte = num & 0xFF;

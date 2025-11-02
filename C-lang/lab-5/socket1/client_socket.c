@@ -6,13 +6,13 @@
 
 int main() 
 {
-    int sockfd, n, arr[100];
+    int client_socket, n, arr[100];
     struct sockaddr_in servaddr;
     socklen_t len = sizeof(servaddr);
 
     // Create UDP socket
-    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sockfd < 0) 
+    client_socket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (client_socket < 0) 
     {
         perror("Socket creation failed");
         exit(1);
@@ -31,18 +31,20 @@ int main()
     for (int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
 
-    // Send data
-    sendto(sockfd, &n, sizeof(n), 0, (struct sockaddr*)&servaddr, len);
-    sendto(sockfd, arr, sizeof(int) * n, 0, (struct sockaddr*)&servaddr, len);
+    // Send data individually
+    //first sending the length of array
+    sendto(client_socket, &n, sizeof(n), 0, (struct sockaddr*)&servaddr, len);
+    //then sending the array
+    sendto(client_socket, arr, sizeof(int) * n, 0, (struct sockaddr*)&servaddr, len);
 
     // Receive sorted array
-    recvfrom(sockfd, arr, sizeof(int) * n, 0, (struct sockaddr*)&servaddr, &len);
+    recvfrom(client_socket, arr, sizeof(int) * n, 0, (struct sockaddr*)&servaddr, &len);
 
     printf("Sorted array from server: ");
     for (int i = 0; i < n; i++)
         printf("%d ", arr[i]);
     printf("\n");
 
-    close(sockfd);
+    close(client_socket);
     return 0;
 }

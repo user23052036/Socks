@@ -18,3 +18,12 @@ int main()
 
     return 0;
 }
+
+/*
+ we can also do this
+(num & 0xFF)      // first byte
+(num & 0xFF00)    // second byte
+(num & 0xFF0000)  // third byte
+(num & 0xFF000000)// fourth byte
+
+*/

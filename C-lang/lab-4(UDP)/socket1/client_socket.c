@@ -5,12 +5,12 @@
 
 int main() 
 {
-    int sockfd;
+    int client_socket;
     struct sockaddr_in server_addr;
 
     // 1. Create a UDP socket
-    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sockfd < 0) 
+    client_socket = socket(AF_INET, SOCK_DGRAM, 0);
+    if (client_socket < 0) 
     {
         perror("Socket creation failed");
         return 1;
@@ -24,15 +24,15 @@ int main()
 
     // 3. Send data
     char *msg = "Hello from client!";
-    if (sendto(sockfd, msg, strlen(msg), 0,(struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) 
+    if (sendto(client_socket, msg, strlen(msg), 0,(struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) 
     {
         perror("Send failed");
-        close(sockfd);
+        close(client_socket);
         return 1;
     }
 
     printf("Message sent to server.\n");
 
-    close(sockfd);
+    close(client_socket);
     return 0;
 }

@@ -22,6 +22,16 @@ int main()
 }
 
 /*
+Note:
+------
+This program extracts bytes and reconstructs the same number.
+It does NOT convert endianness — both steps use the same byte order (LSB first).
+
+To actually convert between little and big endian,
+you must reverse the byte order while rebuilding.
+*/
+
+/*
 Execution order:
 
 Each shift is evaluated:

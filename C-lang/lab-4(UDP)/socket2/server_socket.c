@@ -5,13 +5,13 @@
 
 int main() 
 {
-    int sockfd;
+    int server_socket;
     char buffer[1024];
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_len = sizeof(client_addr);
 
     // Create UDP socket
-    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    server_socket = socket(AF_INET, SOCK_DGRAM, 0);
 
     // Server address configuration
     server_addr.sin_family = AF_INET;
@@ -19,21 +19,21 @@ int main()
     server_addr.sin_addr.s_addr = INADDR_ANY; // Accept from any IP on this machine
 
     // Bind socket to the address & port
-    bind(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
     printf("UDP Server listening on port 8080...\n");
 
     // Receive message from client
-    int n = recvfrom(sockfd, buffer, sizeof(buffer) - 1, 0,
+    int n = recvfrom(server_socket, buffer, sizeof(buffer) - 1, 0,
                      (struct sockaddr *)&client_addr, &addr_len);
     buffer[n] = '\0';
     printf("Client says: %s\n", buffer);
 
     // Reply to client
     char *reply = "Hello from server";
-    sendto(sockfd, reply, strlen(reply), 0,
+    sendto(server_socket, reply, strlen(reply), 0,
            (struct sockaddr *)&client_addr, addr_len);
     printf("Reply sent to client.\n");
 
-    close(sockfd);
+    close(server_socket);
     return 0;
 }
