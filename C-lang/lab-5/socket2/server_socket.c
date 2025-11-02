@@ -46,10 +46,19 @@ int main()
         sprintf(buf, "%d", sum);
 
         sendto(server_socket, buf, strlen(buf), 0, (struct sockaddr*)&client_addr, len);
-
         printf("Received: %d %d | Sent Sum: %d\n", a, b, sum);
     }
 
     close(server_socket);
     return 0;
 }
+
+// sscanf() reads formatted data from a string (opposite of sprintf).
+// Example: sscanf(buf, "%d %d", &a, &b); → extracts two integers from buf into a and b.
+// Useful for converting received string data back into numeric values.
+
+
+// recvfrom() returns the number of bytes received in 'n'.
+// Example: if client sent "10 20" (5 characters), n = 5.
+// Always add buf[n] = '\0'; to terminate the string safely.
+
